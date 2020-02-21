@@ -3,7 +3,7 @@ module Main exposing (main)
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onBlur, onClick, onInput)
 
 
 
@@ -11,31 +11,38 @@ import Html.Events exposing (onClick)
 
 
 initialModel =
-    { name = "me"
+    { inputName = "me"
+    , outputName = "me"
     }
 
 
 
 --UPDATE
 
+
 update msg model =
-       if msg.desc == "greet" then
-            { model | name = msg.data }
-        else
-            model
+    if msg.desc == "greet" then
+        { model | inputName = msg.data }
+
+    else if msg.desc == "greetOnClick" then
+        { model | outputName = msg.data }
+
+    else
+        model
+
+
+
 --VIEW
 
 
 view model =
     div []
         [ label [] [ text "enter your name" ]
-        , input [ placeholder "name ", value model.name ] []
-        , button [ onClick {desc = "greet", data = "model.name"} ] [ text "greet" ]
-        , div [] 
-                [
-                    text ( "hello " ++ model.name) 
-                ]
-               
+        , input [ placeholder "name ", value model.inputName, onInput (\str -> { desc = "greet", data = str }) ] []
+        , button [ onClick { desc = "greetOnClick", data = model.inputName } ] [ text "greet" ]
+        , div []
+            [ text ("hello " ++ model.outputName)
+            ]
         ]
 
 
