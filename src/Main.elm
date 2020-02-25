@@ -9,17 +9,25 @@ import Html.Events exposing (onBlur, onClick, onInput)
 
 --MODEL
 
-
-initialModel =
-    { inputName = "me"
-    , outputName = "me"
+type alias Model =
+    { inputName : String
+    , outputName : String
     }
 
+initialModel : Model
+initialModel = {
+        inputName = "me"
+      , outputName = "me"
+    }
 
+type alias Msg =
+    { desc : String
+    , data : String
+    }
 
 --UPDATE
 
-
+update : Msg -> Model -> Model
 update msg model =
     if msg.desc == "greet" then
         { model | inputName = msg.data }
@@ -31,10 +39,8 @@ update msg model =
         model
 
 
-
 --VIEW
-
-
+view : Model -> Html Msg
 view model =
     div []
         [ label [] [ text "enter your name" ]
